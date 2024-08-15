@@ -4,8 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev": "webpack --mode=development",
-    "serve": "webpack-dev-server --mode=production",
+    "start": "webpack-dev-server --mode=production --env dev",
+    "prod": "webpack --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
