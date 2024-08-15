@@ -4,7 +4,7 @@ This demo should help you practice webpack@5
 
 ## notes
 
-https://juejin.cn/post/7402549800547860491#heading-11
+https://juejin.cn/post/7402549800547860491#heading-6
 
 ## Project Setup
 
