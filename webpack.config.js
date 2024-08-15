@@ -1,6 +1,5 @@
 const { resolve } = require('path');
 const FileListPlugin = require('./src/plugins/file-list-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function (env) {
@@ -16,6 +15,7 @@ module.exports = function (env) {
   ];
   // 非开发环境
   if (!env.dev) {
+    const { CleanWebpackPlugin } = require('clean-webpack-plugin');
     // 打包前清空目录
     plugins.unshift(new CleanWebpackPlugin());
   }
