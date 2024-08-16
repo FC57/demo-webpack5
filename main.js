@@ -1,10 +1,11 @@
 // 入口文件
 
-import './src/showImgs';
-import style from './src/assets/index.css';
+import '@/showImgs';
+import '@/cssModule';
+import style from '@/assets/index.css';
 console.log(style);
 
-const { resolve, join } = require('path');
+// const { resolve, join } = require('path');
 
 // console.log(resolve('./', 'main', '/sub', 'index.js'));
 // console.log(join('./', 'main', '../sub', 'index.js'));
