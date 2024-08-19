@@ -1,3 +1,13 @@
 .container {
   background-color: #ace;
 }
+
+/* 全局类名-不进行类名转换 */
+:global(.main) {
+  background-color: bisque;
+}
+
+/* 局部类名-默认，开启 css module 后，会进行类名转换 */
+:local(.content) {
+  text-align: center;
+}
