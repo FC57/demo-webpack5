@@ -20,7 +20,8 @@ module.exports = function (env) {
       // 而 package.json 中 scripts 定义的命令 webpack --mode=development 会覆盖配置文件中的 mode配置
       // 打包时，会将其他代码中的 process.env.NODE_ENV 替换为指定的值，但又会被这里定义的全局变量覆盖
       // 优先级：DefinePlutin内置插件 > scripts 命令指定的 --mode > 配置文件中配置的 mode
-      'process.env.NODE_ENV': "'production'"
+      // 'process.env.NODE_ENV': "'production'"
+      PI: 'Math.PI'
     })
   ];
   // 非开发环境
@@ -64,14 +65,14 @@ module.exports = function (env) {
         {
           test: /module\.css$/,
           use: [
-            'style-loader',
+            // 'style-loader',
             {
               loader: 'css-loader',
               options: {
                 modules: {
-                  mode: 'local',
                   localIdentName: '[local]_[hash:base64:5]'
                 }
+                // modules: true
               }
             }
           ]
