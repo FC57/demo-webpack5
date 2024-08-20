@@ -1,5 +1,6 @@
 // 入口文件
 
+import '@/index';
 import '@/showImgs';
 import '@/cssModule';
 import style from '@/assets/index.css';

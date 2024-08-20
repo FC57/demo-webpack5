@@ -97,6 +97,10 @@ module.exports = function (env) {
             },
             'postcss-loader'
           ]
+        },
+        {
+          test: /\d+\.js$/,
+          use: 'babel-loader'
         }
       ]
     },
