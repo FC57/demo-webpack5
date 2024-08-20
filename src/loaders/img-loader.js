@@ -30,9 +30,9 @@ imgLoader.raw = true;
  * @param {string} name 打包后名称格式
  */
 function getFilePath(buffer, name) {
-  const fileName = loaderUtils.interpolateName(this, name, {
+  const fileName = `imgs/${loaderUtils.interpolateName(this, name, {
     content: buffer
-  });
+  })}`;
   return { fileName, ext: fileName.replace(/.*\./g, '') };
 }
 
