@@ -2,6 +2,7 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 const FileListPlugin = require('./src/plugins/file-list-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = function (env) {
   console.log({ env, arguments });
@@ -13,6 +14,10 @@ module.exports = function (env) {
     // 根据模板生成页面
     new HtmlWebpackPlugin({
       template: './public/index.html'
+    }),
+    // 抽离css文件
+    new MiniCssExtractPlugin({
+      filename: 'css/[name]_[contenthash:5].css'
     }),
     // 定义环境变量，会将所有代码中对应的指定变量替换为字符串的值
     new webpack.DefinePlugin({
@@ -37,10 +42,10 @@ module.exports = function (env) {
     output: {
       publicPath: '/',
       path: resolve(__dirname, './dist/app'),
-      filename: 'index-[hash:5].js'
+      filename: 'js/index-[hash:5].js'
     },
     // 源码地图
-    devtool: 'source-map',
+    devtool: env.dev ? 'source-map' : void 0,
     // 模块规则
     module: {
       // loader 配置规则
@@ -57,7 +62,7 @@ module.exports = function (env) {
             loader: './src/loaders/img-loader.js',
             // 传递额外参数
             options: {
-              // 超过多少KB使用图片，否者base64格式
+              // 超过多少KB使用图片，否则64格式
               limit: 200
             }
           }
@@ -80,7 +85,8 @@ module.exports = function (env) {
         {
           test: /\.pcss$/,
           use: [
-            'style-loader',
+            // 'style-loader',
+            MiniCssExtractPlugin.loader, // 替换 style-loader，以link标签的方式引入样式
             {
               loader: 'css-loader',
               options: {
