@@ -122,6 +122,7 @@ module.exports = function (env) {
     devServer: {
       port: 8080, // 监听端口
       open: true, // 开启后默认打开页面,
+      // hot: true,// 开启热更新 webpack-dev-server@4+ 默认开启
       // 代理服务器
       // proxy: {
       //   // 代理规则

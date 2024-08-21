@@ -13,3 +13,9 @@ console.log(style);
 
 // const m = require('./src/index');
 // console.log('entry file', m);
+
+if (module.hot) {
+  // 接受热更新，这段代码会参与运行，表示模块更新时，浏览器不会调用 location.reload() 刷新页面，重新加载所有资源
+  // 而是通过 websocket 直接将更改模块发给浏览器
+  module.hot.accept();
+}
