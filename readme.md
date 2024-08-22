@@ -2,7 +2,7 @@
 
 This demo should help you practice webpack@5
 
-## notes
+### notes
 
 https://juejin.cn/post/7402549800547860491#heading-6
 
@@ -15,7 +15,7 @@ pnpm install
 ### Compile and Hot-Reload for Development
 
 ```sh
-pnpm run serve
+pnpm start
 ```
 
 ### Project Tree
