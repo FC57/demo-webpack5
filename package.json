@@ -4,9 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "webpack-dev-server --mode=development --env dev",
-    "build": "webpack --mode=development",
-    "build:prod": "webpack --mode=production",
+    "start": "webpack-dev-server --mode=development --env dev --node-env development",
+    "build": "webpack --mode=development --node-env production",
+    "build:prod": "webpack --mode=production --node-env production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
