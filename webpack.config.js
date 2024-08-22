@@ -30,11 +30,11 @@ module.exports = function (env) {
     })
   ];
   // 非开发环境
-  if (!env.dev) {
-    const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-    // 打包前清空目录
-    plugins.unshift(new CleanWebpackPlugin());
-  }
+  // if (!env.dev) {
+  //   const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+  //   // 打包前清空目录
+  //   plugins.unshift(new CleanWebpackPlugin());
+  // }
   return {
     // 入口路径
     entry: './main.js',
@@ -42,7 +42,8 @@ module.exports = function (env) {
     output: {
       publicPath: '/',
       path: resolve(__dirname, './dist/app'),
-      filename: 'js/index-[hash:5].js'
+      filename: 'js/index-[hash:5].js',
+      clean: !env.dev ? true : void 0 // 清除上一次打包结果,webpack@5已支持，可不用 clean-webpack-plugin，除非需要排除指定文件
     },
     // 源码地图
     devtool: env.dev ? 'source-map' : void 0,
@@ -62,7 +63,7 @@ module.exports = function (env) {
             loader: './src/loaders/img-loader.js',
             // 传递额外参数
             options: {
-              // 超过多少KB使用图片，否则64格式
+              // 超过多少KB使用图片，否则base64格式
               limit: 200
             }
           }
