@@ -1,19 +1,28 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
+const dotenv = require('dotenv');
 const FileListPlugin = require('./src/plugins/file-list-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+// 当前环境变量
+const NODE_ENV = process.env.NODE_ENV;
+// 读取环境变量并注入，默认会注入 .env 文件（全局环境变量），其他的环境变量文件会覆盖该文件中的同名变量
+dotenv.config({ path: resolve(__dirname, `.env.${NODE_ENV}`) });
+
 module.exports = function (env) {
-  console.log({ env, arguments });
-  console.log(process.env.NODE_ENV);
+  console.log({ env, arguments, curEnv: process.env.NODE_ENV, nodeEnv: process.env });
+
   // 插件
   const plugins = [
     // 自定义插件
     new FileListPlugin('fileList.md'),
     // 根据模板生成页面
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: './public/index.html',
+      templateParameters: {
+        title: process.env.TITLE
+      }
     }),
     // 抽离css文件
     new MiniCssExtractPlugin({
@@ -121,7 +130,7 @@ module.exports = function (env) {
       }
     },
     devServer: {
-      port: 8080, // 监听端口
+      port: process.env.PORT || 8080, // 监听端口
       open: true, // 开启后默认打开页面,
       // hot: true,// 开启热更新 webpack-dev-server@4+ 默认开启
       // 代理服务器
