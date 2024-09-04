@@ -11,7 +11,7 @@ const NODE_ENV = process.env.NODE_ENV;
 dotenv.config({ path: resolve(__dirname, `.env.${NODE_ENV}`) });
 
 module.exports = function (env) {
-  console.log({ env, arguments, curEnv: process.env.NODE_ENV, nodeEnv: process.env });
+  // console.log({ env, arguments, curEnv: process.env.NODE_ENV, nodeEnv: process.env });
 
   // 插件
   const plugins = [
@@ -66,7 +66,7 @@ module.exports = function (env) {
           use: ['./src/loaders/style-loader.js']
         },
         {
-          test: /(\.jpg|\.png\.gif)$/,
+          test: /(\.jpg|\.png|\.gif)$/,
           use: {
             // 指定 loader
             loader: './src/loaders/img-loader.js',
