@@ -2,6 +2,12 @@
 
 This demo should help you practice webpack@5
 
+<br/>
+
+![nodejs](https://img.shields.io/badge/node-v18.14.2-brightgreen?logo=nodedotjs) ![pnpm](https://img.shields.io/badge/pnpm-v9.4.0-brightgreen?logo=pnpm) ![ts](https://img.shields.io/badge/typescript-v4.9.5-blue?logo=typescript) ![webpack](https://img.shields.io/badge/webpack-v5.93.0-blue?logo=webpack)
+
+<br/>
+
 ### notes（欢迎掘友点评 🎉🎉🎉）
 
 https://juejin.cn/post/7402549800547860491#heading-6

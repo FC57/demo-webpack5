@@ -137,14 +137,14 @@ module.exports = function (env) {
       // proxy: {
       //   // 代理规则
       //   '/api': {
-      //     target: 'http://open.duyiedu.com',
+      //     target: 'https://github.com',
       //     changeOrigin: true, // 更改请求头中的 host 和 origin,
       //   }
       // }
       proxy: [
         {
           context: ['/api'],
-          target: 'http://open.duyiedu.com'
+          target: 'https://github.com'
         }
       ]
     }

@@ -1,4 +1,4 @@
-const imgsSrc = [require('./assets/images/note.jpg'), require('./assets/images/preview.jpg')];
+const imgsSrc = [require('./assets/images/note.jpg'), require('./assets/images/preview.png')];
 
 imgsSrc.forEach(src => {
   console.log(src);
