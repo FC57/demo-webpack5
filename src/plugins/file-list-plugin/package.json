@@ -1,0 +1,5 @@
+{
+  "name": "file-list-plugin",
+  "types": "typing.d.ts",
+  "main": "index.ts"
+}

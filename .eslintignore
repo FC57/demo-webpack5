@@ -6,6 +6,8 @@ node_modules
 .vscode
 .idea
 dist
+env.d.ts
 /public
 .husky
 /bin
+/src/types/tool.d.ts
