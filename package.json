@@ -11,7 +11,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:lint-staged": "lint-staged",
     "commit": "git pull && git add -A && git-cz && npm run push",
-    "push": "git push & git push github master"
+    "commit:tags": "git pull && git add -A && git-cz && npm run push:tags",
+    "push": "git push & git push github master",
+    "push:tags": "git push --tags & git push github master --tags"
   },
   "author": {
     "name": "Franky_fwz",
