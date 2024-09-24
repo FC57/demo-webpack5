@@ -39,7 +39,7 @@ pnpm start
 
 ```text
 demo-webpack
-├─ .env                                   # 在webpack.config.js中通过dotenv注入到process.env
+├─ .env                                   # 在webpack.config.ts中通过dotenv注入到process.env
 ├─ .env.development                       # 开发环境环境变量
 ├─ .env.production                        # 生产环境的环境变量（同样通过dotenv注入到process.env）
 ├─ .eslintignore

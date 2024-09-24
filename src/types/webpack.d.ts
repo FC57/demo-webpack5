@@ -20,4 +20,6 @@ declare global {
   type HtmlWebpackPluginType = typeof import('html-webpack-plugin');
   /** 样式抽离插件与loader */
   type MiniCssExtractPluginType = typeof import('mini-css-extract-plugin');
+  /** 打包分析工具 */
+  type BundleAnalyzerPluginType = (typeof import('webpack-bundle-analyzer'))['BundleAnalyzerPlugin'];
 }

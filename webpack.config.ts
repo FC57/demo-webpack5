@@ -5,6 +5,7 @@ const dotenvConfig: DotenvConfig = require('dotenv').config;
 const FileListPlugin: CustomFileListPlugin = require('./src/plugins/file-list-plugin');
 const HtmlWebpackPlugin: HtmlWebpackPluginType = require('html-webpack-plugin');
 const MiniCssExtractPlugin: MiniCssExtractPluginType = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin: BundleAnalyzerPluginType = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /** 当前环境变量 */
 const NODE_ENV = process.env.NODE_ENV;
@@ -30,7 +31,7 @@ envList.forEach(doteFile => {
 /** 获取插件配置 */
 function getPlugins() {
   // 插件
-  const plugins = [
+  const plugins: Configuration['plugins'] = [
     // 自定义插件
     new FileListPlugin('fileList.md'),
     // 根据模板生成页面
@@ -54,11 +55,14 @@ function getPlugins() {
       PI: 'Math.PI'
     })
   ];
-  // if (isProduction) {
-  //   // 打包前清空目录，但 webpack@5 内置了不用单独引入
-  //   const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-  //   plugins.unshift(new CleanWebpackPlugin());
-  // }
+  if (isProduction) {
+    // 打包前清空目录，但 webpack@5 内置了不用单独引入
+    // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+    // plugins.unshift(new CleanWebpackPlugin());
+
+    // 打包分析工具
+    plugins.push(new BundleAnalyzerPlugin());
+  }
   return plugins;
 }
 
