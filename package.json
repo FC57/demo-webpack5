@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "demo for webpack@5",
   "scripts": {
-    "start": "webpack-dev-server --mode=development --node-env development",
+    "start": "webpack-dev-server --mode=development --node-env development --progress",
     "build": "webpack --mode=development --node-env production",
     "build:prod": "webpack --mode=production --node-env production",
     "prepare": "husky install",
@@ -35,6 +35,7 @@
     "babel-loader": "^9.1.3",
     "clean-webpack-plugin": "^4.0.0",
     "commitizen": "^4.3.0",
+    "copy-webpack-plugin": "^12.0.2",
     "css-loader": "6.11.0",
     "cz-git": "^1.9.4",
     "dotenv": "^16.4.5",
@@ -42,6 +43,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "html-webpack-plugin": "^5.6.0",
+    "html-webpack-tags-plugin": "^3.0.2",
     "husky": "8.0.1",
     "lint-staged": "^15.2.7",
     "loader-utils": "^3.3.1",
@@ -58,7 +60,8 @@
     "webpack": "^5.93.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^6.0.1"
   },
   "dependencies": {
     "core-js": "^3.38.0",

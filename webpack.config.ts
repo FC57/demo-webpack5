@@ -4,6 +4,8 @@ const DefinePlugin: WebpackDefinePlugin = require('webpack').DefinePlugin;
 const dotenvConfig: DotenvConfig = require('dotenv').config;
 const FileListPlugin: CustomFileListPlugin = require('./src/plugins/file-list-plugin');
 const HtmlWebpackPlugin: HtmlWebpackPluginType = require('html-webpack-plugin');
+const CopyPlugin: CopyPluginType = require('copy-webpack-plugin');
+const HtmlWebpackTagsPlugin: HtmlWebpackTagsPluginType = require('html-webpack-tags-plugin');
 const MiniCssExtractPlugin: MiniCssExtractPluginType = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin: BundleAnalyzerPluginType = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -34,12 +36,41 @@ function getPlugins() {
   const plugins: Configuration['plugins'] = [
     // 自定义插件
     new FileListPlugin('fileList.md'),
+    // 复制静态资源至指定路径
+    new CopyPlugin({
+      patterns: [
+        {
+          from: resolve(__dirname, 'public'), // 源路径
+          to: resolve(__dirname, 'dist/app'), // 目标路径
+          toType: 'dir',
+          globOptions: {
+            ignore: ['**/.DS_Store', '**/index.html']
+          },
+          info: {
+            minimized: true
+          }
+        }
+      ]
+    }),
     // 根据模板生成页面
     new HtmlWebpackPlugin({
       template: './public/index.html',
       templateParameters: {
         title: process.env.TITLE
       }
+    }),
+    // 在模板中注入其它资源
+    new HtmlWebpackTagsPlugin({
+      tags: [
+        { path: 'script/index.js', attributes: { defer: true } }, // JS 文件
+        {
+          path: 'assets/imgs/webpack.svg',
+          attributes: { rel: 'shortcut icon', type: 'image/svg+xml' },
+          type: 'css'
+        } // SVG 图标
+      ],
+      append: false, // 是否追加到 head
+      publicPath: '/' // 处理路径
     }),
     // 抽离css文件
     new MiniCssExtractPlugin({
@@ -144,6 +175,14 @@ const webpackConfig: Configuration = {
             // 超过多少KB使用图片，否则base64格式
             limit: 200
           }
+        }
+      },
+      {
+        test: /\.(svg)(\?.*)?$/,
+        include: resolve(__dirname, 'src/assets/images'),
+        type: 'asset/resource', // webpack@5通用资源处理模块，默认会导出单独的文件
+        generator: {
+          filename: 'imgs/svg/[name].[contenthash:6][ext]' //文件打包输出目录
         }
       }
     ]

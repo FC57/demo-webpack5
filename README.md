@@ -62,8 +62,13 @@ demo-webpack
 ├─ package.json                           # 包管理配置文件
 ├─ pnpm-lock.yaml                         # pnpm 下载包版本锁定
 ├─ postcss.config.js                      # postcss 配置文件
-├─ public
-│  └─ index.html                          # 模板html
+├─ public                                 # 除 index.html ，均为静态资源不参与编译
+│  ├─ assets
+│  │  └─ imgs
+│  │     └─ webpack.svg
+│  ├─ index.html                          # 模板html
+│  └─ script
+│     └─ index.js
 ├─ README.md                              # 说明文档
 ├─ src
 │  ├─ assets
