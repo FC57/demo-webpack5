@@ -1,0 +1,5 @@
+{
+  "name": "build-utils",
+  "types": "typing.d.ts",
+  "main": "index.ts"
+}

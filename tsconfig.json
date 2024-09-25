@@ -61,8 +61,8 @@
     // 5、【生成文件，影响编译结果 Emit】
     "noEmit": true, // 用于仅进行类型检查而不生成输出文件，比如在测试代码时
     "removeComments": true, // 编译后的 .js 文件中删除注释
-    // "declaration":true, // 生成类型声明文件.d.ts
-    // "emitDeclarationOnly":false, 只生成类型声明文件.d.ts，不生成.js文件
+    // "declaration": true, // 生成类型声明文件.d.ts
+    // "emitDeclarationOnly": false, // 只生成类型声明文件.d.ts，不生成.js文件
     // "declarationMap":true,// 为.d.ts文件创建源映射
     // "outDir":null, // 指定输出目录，未指定默认为编译文件的同目录
 
@@ -74,7 +74,17 @@
     "skipLibCheck": true // 跳过库文件的类型检查
   },
   // 指定编译的文件或目录
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "env.d.ts", "build/**/*.ts", "webpack.config.ts", "mock/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "env.d.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
+    "webpack.config.ts",
+    "mock/**/*.ts",
+    "mock/**/*.d.ts"
+  ],
   // 指定编译器需要排除的文件或文件夹，默认值 node_modules，bower_components，jspm_packages，outDir配置的对应目录
   "exclude": ["node_modules", "dist", "**/*.js"],
 

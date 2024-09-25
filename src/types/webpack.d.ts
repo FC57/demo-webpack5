@@ -1,7 +1,12 @@
 // 解决 webpack.config.ts 使用 CommonJS 后类型丢失
 import type { Configuration as WebpackConfiguration, Compiler as WebpackCompiler } from 'webpack';
+import { EnvironmentValue as EnvValue } from '../../build';
 
 declare global {
+  /** 环境变量取值 */
+  type EnvironmentValue = EnvValue;
+  /** 构建辅助工具 */
+  type BuildUtils = typeof import('../../build');
   /** webpack 配置文件类型 */
   type Configuration = WebpackConfiguration & { devServer?: import('webpack-dev-server')['options'] };
   /** webpack 插件 compiler 对象 */
@@ -27,9 +32,9 @@ declare global {
   /** 样式抽离插件与loader */
   type MiniCssExtractPluginType = typeof import('mini-css-extract-plugin');
   /** 打包分析工具 */
-  type BundleAnalyzerPluginType = (typeof import('webpack-bundle-analyzer'))['BundleAnalyzerPlugin']; /** 自定义Mock工具方法 */
+  type BundleAnalyzerPluginType = typeof import('webpack-bundle-analyzer');
 
-  /** 自定义 Mock 工具 */
+  /** 自定义Mock工具方法 */
   type MockUtils = typeof import('@mock/utils');
   /** 数据模拟 */
   type MockJS = typeof import('mockjs');

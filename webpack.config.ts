@@ -1,13 +1,12 @@
 const resolve: PathResolve = require('path').resolve;
-const existsSync: NodeFs['existsSync'] = require('fs').existsSync;
-const DefinePlugin: WebpackDefinePlugin = require('webpack').DefinePlugin;
-const dotenvConfig: DotenvConfig = require('dotenv').config;
-const FileListPlugin: CustomFileListPlugin = require('./src/plugins/file-list-plugin');
-const HtmlWebpackPlugin: HtmlWebpackPluginType = require('html-webpack-plugin');
-const CopyPlugin: CopyPluginType = require('copy-webpack-plugin');
-const HtmlWebpackTagsPlugin: HtmlWebpackTagsPluginType = require('html-webpack-tags-plugin');
-const MiniCssExtractPlugin: MiniCssExtractPluginType = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin: BundleAnalyzerPluginType = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const merge: WebpackMerge = require('webpack-merge').merge;
+const { injectEnvVriables: injectEnv } = require('./build') as BuildUtils;
+const DefinePlugin = require('webpack').DefinePlugin as WebpackDefinePlugin;
+const FileListPlugin = require('./src/plugins/file-list-plugin') as CustomFileListPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin') as HtmlWebpackPluginType;
+const CopyPlugin = require('copy-webpack-plugin') as CopyPluginType;
+const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin') as HtmlWebpackTagsPluginType;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') as MiniCssExtractPluginType;
 
 /** 获取的命令行参数键值对 */
 const args = require('minimist')(process.argv.slice(2));
@@ -23,16 +22,8 @@ if (!NODE_ENV) {
 /** 是否为生成环境 */
 const isProduction = NODE_ENV === 'production';
 
-/** .env 文件列表 */
-const envList = ['.env', `.env.${NODE_ENV}`] as const;
-// 读取环境变量并注入process.env，若不指定文件，如 dotenvConfig() 默认会注入 .env 文件（全局环境变量）
-envList.forEach(doteFile => {
-  if (existsSync(doteFile)) {
-    // 对应环境的环境变量文件存在则注入，但后者同名变量不会覆盖前者，一旦确定不会被修改
-    dotenvConfig({ path: doteFile });
-    // console.log({ title: process.env.TITLE, port: process.env.PORT });
-  }
-});
+// 注入环境变量
+injectEnv(NODE_ENV as EnvironmentValue);
 
 /** 获取插件配置 */
 function getPlugins() {
@@ -94,29 +85,24 @@ function getPlugins() {
     // 自定义插件，生成罗列打包文件清单的文件
     plugins.unshift(new FileListPlugin('fileList.md'));
   }
-  if (isProduction) {
-    // 打包前清空目录，但 webpack@5 内置了不用单独引入
-    // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-    // plugins.unshift(new CleanWebpackPlugin());
-
-    // 打包分析工具
-    plugins.push(new BundleAnalyzerPlugin());
-  }
+  // if (isProduction) {
+  //   // 打包前清空目录，但 webpack@5 内置了不用单独引入
+  //   const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+  //   plugins.unshift(new CleanWebpackPlugin());
+  // }
   return plugins;
 }
 
-const webpackConfig: Configuration = {
+/** 基础配置 base config */
+const webpackBaseConfig: Configuration = {
   // 入口路径
   entry: resolve(__dirname, './src/main.ts'),
   // 出口路径及文件名称
   output: {
     publicPath: '/',
     path: resolve(__dirname, './dist/app'),
-    filename: 'js/index-[hash:5].js',
-    clean: isProduction // 清除上一次打包结果,webpack@5已支持，可不用 clean-webpack-plugin
+    filename: 'js/index-[hash:5].js'
   },
-  // 源码地图
-  devtool: !isProduction ? 'source-map' : void 0,
   // 构建缓存
   cache: {
     type: 'filesystem', // 缓存在内存中，每次构建缓存均在
@@ -218,25 +204,6 @@ const webpackConfig: Configuration = {
       '@css': resolve(__dirname, 'src/assets/css'),
       '@mock': resolve(__dirname, 'mock')
     }
-  },
-  devServer: {
-    port: process.env.PORT || 8080, // 监听端口
-    open: true, // 开启后默认打开页面,
-    // hot: true,// 开启热更新 webpack-dev-server@4+ 默认开启
-    // 代理服务器
-    // proxy: {
-    //   // 代理规则
-    //   '/api': {
-    //     target: 'https://github.com',
-    //     changeOrigin: true, // 更改请求头中的 host 和 origin,
-    //   }
-    // }
-    proxy: [
-      {
-        context: ['/api'],
-        target: 'https://github.com'
-      }
-    ]
   }
   // optimization: {
   //   // 分包
@@ -249,4 +216,7 @@ const webpackConfig: Configuration = {
   // }
 };
 
-module.exports = webpackConfig;
+/** 不同环境合并配置 merge config */
+const mergeConfig: Configuration = require(isProduction ? './build/webpack.prod' : './build/webpack.dev');
+
+module.exports = merge(webpackBaseConfig, mergeConfig);
