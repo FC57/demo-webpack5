@@ -1,5 +1,5 @@
 const Mock: MockJS = require('mockjs');
-const util: MockUtil = require('./util');
+const util: MockUtils = require('./utils');
 
 type SetupMiddlewares = Exclude<Configuration['devServer'], undefined>['setupMiddlewares'];
 

@@ -1,9 +1,7 @@
-type Compiler = WebpackCompiler;
-
 module.exports = class FileListPlugin {
-  #fileName;
+  private fileName: string;
   constructor(fileName: string) {
-    this.#fileName = fileName;
+    this.fileName = fileName;
   }
 
   // 插件方法
@@ -19,9 +17,9 @@ module.exports = class FileListPlugin {
         const size = compilation.assets[fileName].size();
         fileContent.push(`--【${fileName}】\n文件大小：${size / 1024}KB\n`);
       }
-      console.log(`生成文件${this.#fileName}`);
+      console.log(`生成文件${this.fileName}`);
       const _source = fileContent.join('\n\n');
-      compilation.assets[this.#fileName] = {
+      compilation.assets[this.fileName] = {
         source: () => _source,
         size: () => _source.length,
         map: () => null,
