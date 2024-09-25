@@ -1,0 +1,18 @@
+{
+  "code": "SUCCESS",
+  "data|20-30": [
+    {
+      "_id": "@guid",
+      "loginId": "@string(2,6)",
+      "loginPwd": "@word(3,5)",
+      "name": "@cname",
+      "age|18-45": 1,
+      "hobby": "@pick(['电影','阅读','旅游','运动','游戏'],1,3)",
+      "address": {
+        "province": "@province",
+        "city": "@city"
+      }
+    }
+  ],
+  "msg": "成功"
+}

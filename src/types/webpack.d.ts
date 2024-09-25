@@ -23,5 +23,8 @@ declare global {
   /** 样式抽离插件与loader */
   type MiniCssExtractPluginType = typeof import('mini-css-extract-plugin');
   /** 打包分析工具 */
-  type BundleAnalyzerPluginType = (typeof import('webpack-bundle-analyzer'))['BundleAnalyzerPlugin'];
+  type BundleAnalyzerPluginType = (typeof import('webpack-bundle-analyzer'))['BundleAnalyzerPlugin']; /** 自定义Mock工具方法 */
+
+  type MockUtils = typeof import('@mock/utils'); /** 数据模拟 */
+  type MockJS = typeof import('mockjs');
 }

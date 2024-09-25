@@ -1,5 +1,5 @@
 const resolve: PathResolve = require('path').resolve;
-const existsSync: FsExistsSync = require('fs').existsSync;
+const existsSync: NodeFs['existsSync'] = require('fs').existsSync;
 const DefinePlugin: WebpackDefinePlugin = require('webpack').DefinePlugin;
 const dotenvConfig: DotenvConfig = require('dotenv').config;
 const FileListPlugin: CustomFileListPlugin = require('./src/plugins/file-list-plugin');
@@ -109,6 +109,13 @@ const webpackConfig: Configuration = {
   },
   // 源码地图
   devtool: !isProduction ? 'source-map' : void 0,
+  // 构建缓存
+  cache: {
+    type: 'filesystem', // 缓存在内存中，每次构建缓存均在
+    buildDependencies: {
+      config: [__filename] // 获取最新配置以及所有依赖项，文件更改，重新构建缓存
+    }
+  },
   // 模块规则
   module: {
     // loader 配置规则
@@ -200,7 +207,8 @@ const webpackConfig: Configuration = {
     // 模块路径别名
     alias: {
       '@': resolve(__dirname, 'src'),
-      '@css': resolve(__dirname, 'src/assets/css')
+      '@css': resolve(__dirname, 'src/assets/css'),
+      '@mock': resolve(__dirname, 'mock')
     }
   },
   devServer: {

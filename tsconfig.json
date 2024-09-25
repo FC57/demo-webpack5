@@ -43,7 +43,8 @@
     //  paths定义的路径映射并不会影响到编译之后的js文件，这个定义仅仅会阻止TypeScript报错，因为tsc编译器并不会处理模块说明符（也就是from "xxxx"）里面的内容
     "paths": {
       "@/*": ["./src/*"],
-      "@css/*": ["./src/assets/css/*"]
+      "@css/*": ["./src/assets/css/*"],
+      "@mock/*": ["./mock/*"]
     },
     "resolveJsonModule": true, // 允许导入 JSON 文件作为模块
     // 需要设置noEmit或者emitDeclarationOnly为true
@@ -73,7 +74,7 @@
     "skipLibCheck": true // 跳过库文件的类型检查
   },
   // 指定编译的文件或目录
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "env.d.ts", "webpack.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "env.d.ts", "build/**/*.ts", "webpack.config.ts", "mock/**/*.ts"],
   // 指定编译器需要排除的文件或文件夹，默认值 node_modules，bower_components，jspm_packages，outDir配置的对应目录
   "exclude": ["node_modules", "dist", "**/*.js"],
 

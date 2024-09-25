@@ -1,0 +1,5 @@
+{
+  "name": "mock-utils",
+  "types": "typing.d.ts",
+  "main": "index.ts"
+}
