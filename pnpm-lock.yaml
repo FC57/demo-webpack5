@@ -99,6 +99,9 @@ importers:
       mini-css-extract-plugin:
         specifier: ^2.9.1
         version: 2.9.1(webpack@5.93.0(webpack-cli@5.1.4))
+      minimist:
+        specifier: ^1.2.8
+        version: 1.2.8
       mockjs:
         specifier: ^1.1.0
         version: 1.1.0

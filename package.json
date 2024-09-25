@@ -49,6 +49,7 @@
     "lint-staged": "^15.2.7",
     "loader-utils": "^3.3.1",
     "mini-css-extract-plugin": "^2.9.1",
+    "minimist": "^1.2.8",
     "mockjs": "^1.1.0",
     "postcss": "^8.4.41",
     "postcss-loader": "^8.1.1",

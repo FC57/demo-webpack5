@@ -9,6 +9,10 @@ const HtmlWebpackTagsPlugin: HtmlWebpackTagsPluginType = require('html-webpack-t
 const MiniCssExtractPlugin: MiniCssExtractPluginType = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin: BundleAnalyzerPluginType = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+/** 获取的命令行参数键值对 */
+const args = require('minimist')(process.argv.slice(2));
+console.log(args);
+
 /** 当前环境变量 */
 const NODE_ENV = process.env.NODE_ENV;
 console.log(NODE_ENV);
@@ -34,8 +38,6 @@ envList.forEach(doteFile => {
 function getPlugins() {
   // 插件
   const plugins: Configuration['plugins'] = [
-    // 自定义插件
-    new FileListPlugin('fileList.md'),
     // 复制静态资源至指定路径
     new CopyPlugin({
       patterns: [
@@ -83,9 +85,15 @@ function getPlugins() {
       // 打包时，会将其他代码中的 process.env.NODE_ENV 替换为指定的值，但又会被这里定义的全局变量覆盖
       // 优先级：DefinePlutin内置插件 > scripts 命令指定的 --mode > 配置文件中配置的 mode
       // 'process.env.NODE_ENV': "'production'"
-      PI: 'Math.PI'
+
+      'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
+      'process.env.API_URL': JSON.stringify(process.env.API_URL)
     })
   ];
+  if (args.mode === 'development') {
+    // 自定义插件，生成罗列打包文件清单的文件
+    plugins.unshift(new FileListPlugin('fileList.md'));
+  }
   if (isProduction) {
     // 打包前清空目录，但 webpack@5 内置了不用单独引入
     // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
