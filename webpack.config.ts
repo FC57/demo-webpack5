@@ -99,9 +99,10 @@ const webpackBaseConfig: Configuration = {
   entry: resolve(__dirname, './src/main.ts'),
   // 出口路径及文件名称
   output: {
-    publicPath: '/',
+    publicPath: '/', // 打包后的资源的访问路径前缀
     path: resolve(__dirname, './dist/app'),
-    filename: 'js/index-[hash:5].js'
+    filename: isProduction ? 'js/[name].[contenthash:6].js' : 'js/index-[hash:5].js', // 打包后的文件名
+    chunkFilename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].chunk.js'
   },
   // 构建缓存
   cache: {
