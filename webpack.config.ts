@@ -1,6 +1,6 @@
 const resolve: PathResolve = require('path').resolve;
 const merge: WebpackMerge = require('webpack-merge').merge;
-const { injectEnvVriables: injectEnv } = require('./build') as BuildUtils;
+const { injectEnvVriables: injectEnv, getStyleLoaders: setStyleLoaders } = require('./build') as BuildUtils;
 const DefinePlugin = require('webpack').DefinePlugin as WebpackDefinePlugin;
 const FileListPlugin = require('./src/plugins/file-list-plugin') as CustomFileListPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin') as HtmlWebpackPluginType;
@@ -116,34 +116,28 @@ const webpackBaseConfig: Configuration = {
     // loader 配置规则
     rules: [
       {
-        test: /module\.css$/,
-        use: [
-          'style-loader',
+        oneOf: [
           {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[local]_[hash:base64:5]'
-              }
-              // modules: true
-            }
-          }
-        ]
-      },
-      {
-        test: /\.pcss$/,
-        use: [
-          // 'style-loader',
-          MiniCssExtractPlugin.loader, // 替换 style-loader，以link标签的方式引入样式
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[local]_[hash:base64:5]'
-              }
-            }
+            test: /\.css$/i,
+            exclude: [/(module|index)\.css$/],
+            use: setStyleLoaders(void 0, isProduction)
           },
-          'postcss-loader'
+          {
+            test: /\.pcss$/i,
+            use: setStyleLoaders('postcss-loader', isProduction)
+          },
+          {
+            test: /module\.css$/i,
+            use: setStyleLoaders()
+          },
+          {
+            test: /\.s[ac]ss$/i,
+            use: setStyleLoaders('sass-loader')
+          },
+          {
+            test: /\.less$/i,
+            use: setStyleLoaders('less-loader')
+          }
         ]
       },
       {
@@ -168,24 +162,65 @@ const webpackBaseConfig: Configuration = {
         use: ['./src/loaders/style-loader.ts']
       },
       {
-        test: /(\.jpg|\.png|\.gif)$/,
-        use: {
-          // 指定 loader
-          loader: './src/loaders/img-loader.ts',
-          // 传递额外参数
-          options: {
-            // 超过多少KB使用图片，否则base64格式
-            limit: 200
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 2 * 1024 // 2kb以下的资源会被转换为base64
           }
+        },
+        generator: {
+          filename: 'fonts/[name].[contenthash:6][ext]' //文件打包输出目录
         }
       },
       {
-        test: /\.(svg)(\?.*)?$/,
-        include: resolve(__dirname, 'src/assets/images'),
-        type: 'asset/resource', // webpack@5通用资源处理模块，默认会导出单独的文件
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 20 * 1024 // 20kb以下的资源会被转换为base64
+          }
+        },
         generator: {
-          filename: 'imgs/svg/[name].[contenthash:6][ext]' //文件打包输出目录
+          filename: 'media/[name].[contenthash:6][ext]' //文件打包输出目录
         }
+      },
+      {
+        oneOf: [
+          {
+            test: /\.(jpg|png)$/,
+            use: {
+              // 指定 loader
+              loader: './src/loaders/img-loader.ts',
+              // 传递额外参数
+              options: {
+                // 超过多少KB使用图片，否则base64格式
+                limit: 200
+              }
+            }
+          },
+          {
+            test: /\.(svg)(\?.*)?$/,
+            include: resolve(__dirname, 'src/assets/images'),
+            type: 'asset/resource', // webpack@5通用资源处理模块，默认会导出单独的文件
+            generator: {
+              filename: 'imgs/svg/[name].[contenthash:6][ext]' //文件打包输出目录
+            }
+          },
+          {
+            test: /\.(png|jpe?g|gif|webp|avif)(\?.*)?$/,
+            include: resolve(__dirname, 'src/assets/images'),
+            type: 'asset', // webpack5通用资源处理模块，默认8kb以下的资源会被转换为base64
+            parser: {
+              dataUrlCondition: {
+                maxSize: 10 * 1024 // 10kb以下的资源会被转换为base64
+              }
+            },
+            generator: {
+              filename: 'imgs/[name].[contenthash:6][ext]' //文件打包输出目录
+            }
+          }
+        ]
       }
     ]
   },

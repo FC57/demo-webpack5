@@ -1,5 +1,5 @@
 // 解决 webpack.config.ts 使用 CommonJS 后类型丢失
-import type { Configuration as WebpackConfiguration, Compiler as WebpackCompiler } from 'webpack';
+import type { Configuration as WebpackConfiguration, Compiler as WebpackCompiler, RuleSetRule as RuleSet } from 'webpack';
 import { EnvironmentValue as EnvValue } from '../../build';
 
 declare global {
@@ -13,6 +13,8 @@ declare global {
   type Compiler = WebpackCompiler;
   /** webpack 内置插件 DefinePlugin，定义变量并在打包编译时替换 */
   type WebpackDefinePlugin = (typeof import('webpack'))['DefinePlugin'];
+  /** webpack module.rules 配置元素的 RuleSetRule */
+  type RuleSetRule = RuleSet;
   /** webpack 配置合并 */
   type WebpackMerge = (typeof import('webpack-merge'))['merge'];
   /** 内置模块path.resolve */
