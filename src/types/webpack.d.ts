@@ -31,6 +31,10 @@ declare global {
   type HtmlWebpackTagsPluginType = typeof import('html-webpack-tags-plugin');
   /** 样式抽离插件与loader */
   type MiniCssExtractPluginType = typeof import('mini-css-extract-plugin');
+  /** 去重、压缩等最小化样式插件 */
+  type CssMinimizerPluginType = typeof import('css-minimizer-webpack-plugin');
+  /** 压缩js代码插件 */
+  type TerserPluginType = typeof import('terser-webpack-plugin');
   /** 打包分析工具 */
   type BundleAnalyzerPluginType = typeof import('webpack-bundle-analyzer');
 
