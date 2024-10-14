@@ -2,6 +2,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer') as BundleAna
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin') as CssMinimizerPluginType;
 const TerserPlugin = require('terser-webpack-plugin') as TerserPluginType;
 
+console.log(process.env.NOANALYZE);
+
 /** 生产环境配置 */
 const prodConfig: Configuration = {
   mode: 'production',
@@ -10,8 +12,8 @@ const prodConfig: Configuration = {
   },
   plugins: [
     // 打包分析工具
-    new BundleAnalyzerPlugin()
-  ],
+    !process.env.NOANALYZE ? new BundleAnalyzerPlugin() : null
+  ].filter(Boolean),
   // 打包优化
   optimization: {
     minimize: true, // 启用代码最小化

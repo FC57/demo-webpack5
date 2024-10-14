@@ -19,17 +19,54 @@ https://juejin.cn/post/7402549800547860491#heading-6
   <img src="./src/assets/images/webpack-notes.png"/>
 </p>
 
-### Project Setup
+### Installation and usage steps
 
-```sh
+- clone:
+
+```bash
+# gitee
+git clone https://gitee.com/franky57/demo-webpack5.git
+
+# github
+git clone https://github.com/FC57/demo-webpack5.git
+```
+
+- install:
+
+```bash
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+- run:
 
-```sh
+```bash
+# env development 运行开发环境
 pnpm start
+
+# env production 打包并执行预览生产环境
+# 用到 cross-env、serve、open、open-cli，自动打包后链接到预览地址
+pnpm preview
 ```
+
+- build:
+
+```bash
+# env production 保留了部分注释并执行自定义插件 file-list-plutin
+# 打包文件多生成打包资源文件清单 fileList.md
+pnpm build
+
+# env production 代码极度压缩
+pnpm build:prod
+```
+
+- commit
+
+```bash
+# 提交代码时，会自动触发 eslint 校验和 prettier 格式化
+pnpm commit
+```
+
+- preview:
 
 <p align="center">
   <img src="./src/assets/images/webpack-preview.png"/>
@@ -55,6 +92,11 @@ demo-webpack
 │  └─ settings.json                       # 解决 Vscode 中当前使用的 typescript 版本与项目不一致问题
 ├─ babel.config.js                        # babel 配置文件（js兼容或处理jsx等文件）
 ├─ build
+│  ├─ index.ts                            # 打包构建区分环境的方法
+│  ├─ package.json                        # 辅助 ts 模块化解析
+│  ├─ typing.d.ts
+│  ├─ webpack.dev.ts                      # 开发环境 webpack 额外配置
+│  └─ webpack.prod.ts                     # 生产环境 webpack 额外配置
 ├─ commitlint.config.js                   # commitlint、cz-git 配置文件（规范和校验提交信息）
 ├─ env.d.ts                               # 各类模块文件定义，防止 ts 报错
 ├─ LICENSE
